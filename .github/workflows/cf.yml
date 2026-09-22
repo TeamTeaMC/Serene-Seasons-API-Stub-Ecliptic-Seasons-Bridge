@@ -63,10 +63,7 @@ jobs:
           changelog-file: changelog.md
           loaders: neoforge
           game-versions: |
-            26.1
-            26.1.1
-            26.1.2
-            26.2
+            [26.1,26.4)
           name: "${{env.RELEASE_NAME}}"
           files: |
             build/libs/${{ env.RELEASE_NAME }}
