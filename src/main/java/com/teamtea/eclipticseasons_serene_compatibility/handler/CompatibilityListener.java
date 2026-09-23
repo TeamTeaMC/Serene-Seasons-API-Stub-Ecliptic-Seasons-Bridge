@@ -1,41 +1,34 @@
-package com.teamtea.eclipticseasons_serene_compatibility;
+package com.teamtea.eclipticseasons_serene_compatibility.handler;
 
 import com.teamtea.eclipticseasons.api.event.SolarTermChangeEvent;
+import com.teamtea.eclipticseasons_serene_compatibility.SereneCompatibility;
 import com.teamtea.eclipticseasons_serene_compatibility.api.EclipticSeasonTime;
 import com.teamtea.eclipticseasons_serene_compatibility.config.LayerCommonConfig;
 import net.minecraft.world.level.Level;
-import net.neoforged.bus.api.SubscribeEvent;
-import net.neoforged.fml.common.EventBusSubscriber;
-import net.neoforged.neoforge.event.TagsUpdatedEvent;
-import net.neoforged.neoforge.event.level.LevelEvent;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import sereneseasons.api.season.Season;
 import sereneseasons.api.season.SeasonHelper;
-import sereneseasons.init.ModConfig;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Method;
 
 
-@EventBusSubscriber(modid = SereneCompatibility.MODID)
+public class CompatibilityListener {
 
-public class AllListener {
-    @SubscribeEvent
-    public static void onLevelLoad(LevelEvent.Load event) {
-        if (event.getLevel() instanceof Level level) {
-            SeasonHelper.SEASON_STATE_HASH_MAP.put(level, new EclipticSeasonTime(level));
-        }
+    public static void onLevelLoad(Level level) {
+        SeasonHelper.SEASON_STATE_HASH_MAP.put(level, new EclipticSeasonTime(level));
     }
 
-    @SubscribeEvent
-    public static void onLevelUnLoad(LevelEvent.Unload event) {
-        if (event.getLevel() instanceof Level level) {
-            SeasonHelper.SEASON_STATE_HASH_MAP.remove(level);
-        }
+
+    public static void onLevelUnLoad(Level level) {
+        SeasonHelper.SEASON_STATE_HASH_MAP.remove(level);
     }
 
     private static Method fireMethod = null;
     private static Constructor<?> eventConstructor = null;
-    @SubscribeEvent
+    public static final Logger LOGGER = LogManager.getLogger(SereneCompatibility.MODID);
+
     public static void onSolarTermChangeEvent(SolarTermChangeEvent event) {
         Season.SubSeason oldSub = Season.SubSeason.VALUES[event.getOldSolarTerm().ordinal() / 2];
         Season.SubSeason newSub = Season.SubSeason.VALUES[event.getNewSolarTerm().ordinal() / 2];
@@ -52,14 +45,14 @@ public class AllListener {
                 Object seasonEvent = eventConstructor.newInstance(event.getLevel(), oldSub, newSub);
                 fireMethod.invoke(null, seasonEvent);
             } catch (Exception e) {
-                SereneCompatibility.logger("Try fire glitchcore event" + e.getMessage());
+                LOGGER.error("Try fire glitchcore event" + e.getMessage());
                 e.printStackTrace();
             }
         }
     }
 
-    @SubscribeEvent
-    public static void onTagsUpdatedEvent(TagsUpdatedEvent event) {
+
+    public static void onTagsUpdatedEvent() {
         LayerCommonConfig.init();
     }
 }
