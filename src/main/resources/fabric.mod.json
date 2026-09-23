@@ -1,0 +1,33 @@
+{
+  "schemaVersion": 1,
+  "id": "${mod_id}",
+  "version": "${mod_version}",
+  "name": "${mod_name}",
+  "description": "${mod_description}",
+  "authors": [
+    "${mod_authors}"
+  ],
+  "contact": {
+    "homepage": "https://www.curseforge.com/minecraft/mc-mods/serene-seasons-api-stub-ecliptic-seasons-bridge",
+    "issues": "https://github.com/TeamTeaMC/Serene-Seasons-API-Stub-Ecliptic-Seasons-Bridge/issues"
+  },
+  "license": "${mod_license}",
+  "icon": "icon.png",
+  "environment": "*",
+  "entrypoints": {
+    "main": [
+      "com.teamtea.eclipticseasons_serene_compatibility.SereneCompatibilityFabric"
+    ],
+    "modmenu": [
+      "com.teamtea.eclipticseasons_serene_compatibility.SereneCompatibilityFabric${'$'}ModMenuCompact"
+    ]
+  },
+  "mixins": [
+    "${mod_id}.mixins.json"
+  ],
+  "depends": {
+    "fabricloader": ">=0.18.4",
+    "minecraft": ">=26.1-snapshot-6",
+    "eclipticseasons": "*"
+  }
+}

@@ -4,7 +4,6 @@ on:
   workflow_dispatch:
 
 env:
-  MINECRAFT_VERSION: 1.21.1
   CURSEFORGE_TOKEN: ${{ secrets.CURSEFORGE_APITOKEN }}
 
 permissions:
@@ -61,7 +60,9 @@ jobs:
           curseforge-token: "${{ env.CURSEFORGE_TOKEN }}"
           version-type: release
           changelog-file: changelog.md
-          loaders: neoforge
+          loaders: |
+            neoforge
+            fabric
           game-versions: |
             [26.1,26.4)
           name: "${{env.RELEASE_NAME}}"

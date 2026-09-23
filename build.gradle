@@ -3,7 +3,7 @@ plugins {
     id 'eclipse'
     id 'idea'
     id 'maven-publish'
-    id 'net.neoforged.moddev' version '2.0.141'
+    id 'net.neoforged.moddev' version '2.0.147'
 }
 
 
@@ -43,21 +43,13 @@ repositories {
     }
 
     maven {
-        url "https://harleyoconnor.com/maven"
-    }
-
-    maven {
-        name "nonamecrackers2Maven"
-        url "https://maven.nonamecrackers2.dev/releases"
-        content {
-            includeGroup "nonamecrackers2"
-        }
+        url = "https://maven.fabricmc.net/"
     }
 }
 
 base {
 //    archivesName = mod_id
-    version = "${minecraft_version}-neoforge-${mod_version}"
+    version = "26.x-universal-${mod_version}"
     group = "${mod_group_id}" // http://maven.apache.org/guides/mini/guide-naming-conventions.html
     archivesName = mod_name_s
 }
@@ -123,11 +115,18 @@ dependencies {
     compileOnly 'org.projectlombok:lombok:1.18.38'
     annotationProcessor 'org.projectlombok:lombok:1.18.38'
 
-    implementation "curse.maven:ecliptic-seasons-1118306:8271260"
+    implementation "curse.maven:ecliptic-seasons-1118306:8936973"
+//    compileOnly "curse.maven:ecliptic-seasons-fabricated-1514738:8901806"
 
-    compileOnly "curse.maven:serene-seasons-291874:7774493"
-    compileOnly "curse.maven:glitchcore-955399:7873146"
+    compileOnly "curse.maven:serene-seasons-291874:8938722"
 
+
+    compileOnly "curse.maven:glitchcore-955399:8938271"
+
+
+    compileOnly("net.fabricmc:fabric-loader:0.18.4")
+    compileOnly "net.fabricmc.fabric-api:fabric-api:0.155.2+26.1.2"
+    compileOnly "maven.modrinth:modmenu:21.0.0-beta.1"
 
     println("----Scan onlyMainRuntimeOnly libs begin----")
     fileTree(dir: 'libs', include: ['*.jar']).each { File file ->
@@ -161,7 +160,7 @@ tasks.withType(ProcessResources).configureEach {
     ]
     inputs.properties replaceProperties
 
-    filesMatching(['META-INF/neoforge.mods.toml']) {
+    filesMatching(['META-INF/neoforge.mods.toml','fabric.mod.json']) {
         expand replaceProperties
     }
 }

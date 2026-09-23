@@ -2,29 +2,11 @@ package com.teamtea.eclipticseasons_serene_compatibility.config;
 
 import com.teamtea.eclipticseasons.config.ClientConfig;
 import com.teamtea.eclipticseasons.config.CommonConfig;
-import net.neoforged.bus.api.SubscribeEvent;
-import net.neoforged.fml.common.EventBusSubscriber;
-import net.neoforged.fml.event.config.ModConfigEvent;
-import net.neoforged.neoforge.common.ModConfigSpec;
 import sereneseasons.init.ModConfig;
 
-@EventBusSubscriber()
 public class LayerCommonConfig {
-    public static final ModConfigSpec COMMON_CONFIG = new ModConfigSpec.Builder().configure(LayerCommonConfig::new).getRight();
-
-    protected LayerCommonConfig(ModConfigSpec.Builder builder) {
-
-    }
-    @SubscribeEvent
-    public static void UpdateConfig(ModConfigEvent modConfigEvent) {
-        if (!(modConfigEvent instanceof ModConfigEvent.Unloading)
-                && modConfigEvent.getConfig().getSpec() == CommonConfig.COMMON_CONFIG) {
-            init();
-        }
-    }
 
     public static void init() {
-
         // seasons
         if (CommonConfig.COMMON_CONFIG.isLoaded()) {
             ModConfig.seasons.whitelistedDimensions.clear();

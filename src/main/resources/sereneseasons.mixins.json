@@ -4,9 +4,9 @@
   "compatibilityLevel": "JAVA_17",
   "refmap": "sereneseasons.refmap.json",
   "mixins": [
-    "MixinBiome"
   ],
   "client": [
+    "client.MixinMinecraftClient"
   ],
   "injectors": {
     "defaultRequire": 1
